@@ -49,6 +49,10 @@ const UserSchema = Mongoose.Schema(
       default:
         "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png",
     },
+    is_verified: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: {
