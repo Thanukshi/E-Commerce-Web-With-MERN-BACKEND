@@ -13,13 +13,13 @@ module.exports = async (email, subject, text) => {
       },
     });
 
-    await transporter.sendMail({
+    const mailOptions = {
       from: process.env.USER,
       to: email,
       subject: subject,
       html: `<!doctype html>
       <html lang="en-US">
-      
+
       <head>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
         <title>Email Verification - SL BAY</title>
@@ -30,7 +30,7 @@ module.exports = async (email, subject, text) => {
           }
         </style>
       </head>
-      
+
       <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
         <!-- 100% body table -->
         <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8" style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
@@ -62,7 +62,7 @@ module.exports = async (email, subject, text) => {
                           </h1>
                           <p style="font-size:15px; color:#455056; margin:8px 0 0; line-height:24px;">
                             Your account has been created successfully. Please verify your email before login to the SL Bay.
-      
+
                             <br />
                             <a href=${text} style="background:#20e277;text-decoration:none !important; display:inline-block; font-weight:500; margin-top:24px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Verify Your Email</a>
                         </td>
@@ -89,11 +89,25 @@ module.exports = async (email, subject, text) => {
           </tr>
         </table>
       </body>
-      
-      </html>`,
-    });
 
-    console.log("Email Send Successfully");
+      </html>`,
+    };
+
+    // await transporter.sendMail({
+    //   from: process.env.USER,
+    //   to: email,
+    //   subject: subject,
+    //   text: text,
+    // });
+
+    await transporter.sendMail(mailOptions, (error, infor) => {
+      if (error) {
+        console.log("Email is not Send Successfully");
+        console.log(error);
+      } else {
+        console.log("Email Send Successfully");
+      }
+    });
   } catch (error) {
     console.log("Email is not Send Successfully");
     console.log(error);
